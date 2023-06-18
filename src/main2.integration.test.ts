@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
 import request from "supertest";
 import { MainModule } from "./main.module";
-import { NestFactory } from "@nestjs/core";
 
 describe("API main (NestFactory)", () => {
   describe("Lifecycle", () => {
