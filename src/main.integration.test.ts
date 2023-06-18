@@ -3,7 +3,7 @@ import { Test } from "@nestjs/testing";
 import request from "supertest";
 import { MainModule } from "./main.module";
 
-describe("API main", () => {
+describe("API main (@nestjs/testing)", () => {
   describe("Lifecycle", () => {
     let app: INestApplication;
 
