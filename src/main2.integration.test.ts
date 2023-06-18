@@ -12,7 +12,6 @@ describe("API main (NestFactory)", () => {
 
     beforeEach(async () => {
       app = await NestFactory.create(MainModule);
-
       await app.listen(0);
     });
 
