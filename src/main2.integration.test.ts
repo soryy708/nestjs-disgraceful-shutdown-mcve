@@ -1,4 +1,4 @@
-import { INestApplication, ShutdownSignal } from "@nestjs/common";
+import { INestApplication } from "@nestjs/common";
 import request from "supertest";
 import { MainModule } from "./main.module";
 import { NestFactory } from "@nestjs/core";
@@ -13,7 +13,6 @@ describe("API main (NestFactory)", () => {
     beforeEach(async () => {
       app = await NestFactory.create(MainModule);
 
-      app.enableShutdownHooks([ShutdownSignal.SIGTERM]);
       await app.listen(0);
     });
 
