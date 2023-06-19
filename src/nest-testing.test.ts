@@ -1,5 +1,6 @@
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
+import request from "supertest";
 import { MainModule } from "./main.module";
 import { testCases } from "./test-cases";
 
@@ -20,6 +21,8 @@ describe("API main (@nestjs/testing)", () => {
       await app.close();
     });
 
-    testCases(() => app);
+    const probeReadiness = () => request(app.getHttpServer()).get("/health").send();
+
+    testCases(probeReadiness, () => app.close());
   });
 });

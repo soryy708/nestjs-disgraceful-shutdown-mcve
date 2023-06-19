@@ -1,10 +1,7 @@
-import { INestApplication } from "@nestjs/common";
-import request from "supertest";
-
-export function testCases(appGetter: () => INestApplication): void {
-  const probeReadiness = () =>
-    request(appGetter().getHttpServer()).get("/health").send();
-
+export function testCases(
+  probeReadiness: () => Promise<{statusCode: number}>,
+  closeApp: () => Promise<void>
+): void {
   describe("When bootstrapped", () => {
     describe("When running", () => {
       it("Should respond successfully", async () => {
@@ -17,7 +14,7 @@ export function testCases(appGetter: () => INestApplication): void {
       describe("When a request is already in progress", () => {
         it("Should respond successfully", async () => {
           const responsePromise = probeReadiness();
-          const closePromise = appGetter().close();
+          const closePromise = closeApp();
           const [response] = await Promise.all([
             responsePromise,
             closePromise,
@@ -28,7 +25,7 @@ export function testCases(appGetter: () => INestApplication): void {
 
       describe("When a new request is made", () => {
         it("Should respond with 503 Service Unavailable", async () => {
-          await appGetter().close();
+          await closeApp();
           const response = await probeReadiness();
           expect(response.statusCode).toBe(503);
         });

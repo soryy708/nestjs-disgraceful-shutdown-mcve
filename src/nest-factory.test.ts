@@ -1,5 +1,6 @@
 import { INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
+import request from "supertest";
 import { MainModule } from "./main.module";
 import { testCases } from "./test-cases";
 
@@ -16,6 +17,8 @@ describe("API main (NestFactory)", () => {
       await app.close();
     });
 
-    testCases(() => app);
+    const probeReadiness = () => request(app.getHttpServer()).get("/health").send();
+
+    testCases(probeReadiness, () => app.close());
   });
 });
